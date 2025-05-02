@@ -1,38 +1,629 @@
-.App {
-  text-align: center;
+p {
+  white-space: pre-line;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.tab-content p {
+  white-space: pre-wrap;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* ──────────────────────────────────────────────────────────
+   1) 전체 배경: 하늘 + 물방울 + 빛 + 물고기
+──────────────────────────────────────────────────────────*/
+.app {
   display: flex;
   flex-direction: column;
+  position: relative;
+  min-height: 100vh;
+  background: url('./images/skyboxes_10.png') center top / cover no-repeat;
+  overflow: hidden;
+}
+.background-title {
+  position: absolute;
+  top: 80px;           /* 화면 상단에서 20px 아래 */
+  left: 50%;           /* 화면 가로 중앙 */
+  transform: translateX(-50%);
+  font-size: 3rem;     /* 원하는 크기 */
+  font-weight: bold;
+  pointer-events: none;/* 클릭 등 방해 안 하도록 */
+  z-index: 1;          /* 다른 레이어들보다 뒤에 깔리도록 */
+}
+.background-title .title-jaes {
+  font-size: 2.5rem;  
+  font-family: PixelifySans;              /* 필요에 따라 조정 */
+  font-weight:600;
+  color: #59FFD3;
+  margin-right: 16px;
+  -webkit-text-stroke: 1px #067590;
+}
+
+/* Archive (Romantimes + 초록 테두리) */
+.background-title .title-archive {
+  font-family: 'Romantimes', serif;
+  font-size: 4rem;                  /* Jae’s와 비슷하게 */
+  font-weight: 500;
+  color: #F8FF27;
+  /* 초록 외곽선 */
+  -webkit-text-stroke: 1px #067590;
+
+  
+}
+
+.app::before,
+.app::after,
+.app .layer-flares,
+.app .layer-bubbles,    
+.app .layer-water {
+  position: absolute;
+  content: '';
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.app .layer-flares {
+  background-image: url('./images/flares_3.png');
+  width: 1225px;
+  height: 1225px;
+  top: 9px;
+  left: 300px;
+  opacity: 0.3;
+}
+
+.app .layer-bubbles {
+  background-image: url('./images/bubbles_2.png');
+  width: 362px;
+  height: 328px;
+  top: 172px;
+  left: 67px;
+  opacity: 0.5;
+}
+
+.app .layer-water {
+  background-image: url('./images/water_7.png');
+  width: 1550px;
+  height: 745px;
+  top: 300px;
+  opacity: 0.5;
+  transform: rotate (-3deg);
+}
+.sealife {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.8
+}
+
+.sealife-1 {
+  background-image: url('./images/sealife_1.png');
+  width: 230px;
+  height: 160px;
+  top: 183px;
+  left: 1143px;
+}
+
+.sealife-11 {
+  background-image: url('./images/sealife_11.png');
+  width: 230px;
+  height: 157px;
+  top: 456px;
+  left: 1110px;
+}
+
+.sealife-13 {
+  background-image: url('./images/sealife_13.png');
+  width: 274px;
+  height: 193px;
+  top: 243px;
+  left: 14px;
+}
+.sealife-27 {
+  background-image: url('./images/sealife_27.png');
+  width: 190px;
+  height: 200px;
+  top: 507px;
+  left: 116px;
+}
+
+/* ──────────────────────────────────────────────────────────
+   2) 헤더: 노란 바 + 초록색 컨트롤
+──────────────────────────────────────────────────────────*/
+.header {
+  background-color: #f7f8a5; /* 연한 노랑 */
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 10px 24px;
+  position: relative;
+  z-index: 10;
+}
+
+.left-controls .music-player {
+  display: flex;
+  align-items: center;
+  width: 400px;               /* 고정 너비 */
+  background-color: #8fd986;  /* 연두 녹색 */
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 16px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.left-controls .track-title {
+  font-family: "Frutiger";
+  font-weight: 60;
+  font-size: 15px;
+  letter-spacing: 1px;
+  flex: 1;
+  margin-right: 20px;
+  margin-left: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* 버튼 스타일 */
+.left-controls .play-btn,
+.left-controls .next-btn, 
+.left-controls .prev-btn
+{
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  margin-left: 6px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.left-controls .play-btn:hover,
+.left-controls .next-btn:hover,
+.left-controls .prev-btn:hover
+ {
+  opacity: 0.8;
+}
+/*-----home버튼----*/
+.right-controls .home-button {
+  font-family:'Times New Roman', Times, serif;
+  background-color: #8fd986;
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 50%;
+  font-weight: 200;
+  cursor: pointer;
+}
+
+.right-controls .home-button:hover {
+  background-color: #7fc06a;
+}
+
+/* ──────────────────────────────────────────────────────────
+   글래스 윈도우: 메인 + 언어 스위치 전체 감싸기
+──────────────────────────────────────────────────────────*/
+.content-wrapper {
+  /* 크기 */
+  width: 1100px;      /* 피그마 기준 전체 너비 */
+  /* 높이는 내부 요소에 맡기되 최소 높이 지정 */
+  height: 600px;
+  margin: 110px auto;  /* 상하 12px, 가로 중앙 정렬 */
+  padding: 15px;
+  
+  /* 글래스 스타일 */
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  
+  /* 내부 배치: main + 언어 스위치 세로 정렬 */
+  display: flex;
+  flex-direction: column;
+  
+  /* .main 과 .language-switch z-index를 올려서 배경 위에 보이게 */
+  position: relative;
+  z-index: 5;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   3) 메인 영역 안의 “창”들: 반투명 유리창(Aero Glass)
+──────────────────────────────────────────────────────────*/
+.main {
+  display: flex;
+  height: 500px;
+  gap: 10px;
+  margin-top: 0;
+}
+/* ──────────────────────────────────────────────────────────
+   3-1) 왼쪽 Introduction 칸
+──────────────────────────────────────────────────────────*/
+.introduction {
+  flex: 0 0 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ① intro-window 래퍼: 투명, padding/배경/테두리 제거 */
+.introduction .intro-window {
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+  border: none;
+  border-radius: 8px;
+  width: 370px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 12px rgba(76, 76, 76, 0.1);
+}
+
+/* ② 헤더 (intro-window-head) */
+.introduction .intro-window-head {
+  height: 70px;
+  padding: 0 16px;         /* 좌우 여백만 남김 */
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;        /* 수직 중앙 정렬 */
+  background: linear-gradient(
+    to bottom,
+    #DFF3FF 0%,
+    #C5EAFF 100% 
+  );
+  border: 1px solid #dedddd;
+  border-bottom: none;        /* 아래 테두리 없애서 본문과 딱 붙도록 */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  z-index: 2;
 }
 
-.App-link {
-  color: #61dafb;
+/* 헤더 안 타이틀 스타일 */
+.introduction .intro-window-head h2 {
+  margin: 15px;
+  font-size: 1.5rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ③ 본문 영역 (intro-window-content) */
+.introduction .intro-window-content {
+   /* ② 본문 높이 고정 */
+   height: 270px;
+   padding: 16px;
+   background: #ffffff;
+   border: 1px solid #dedddd;
+   border-top: none;                 /* 헤더와 딱 붙도록 */
+   margin-top: -1px;     
+   overflow-y: auto;                 /* 내용이 넘치면 스크롤 */
+   z-index: 1;
+
+}
+
+.introduction .intro-window-content .user-frame {
+  display: flex;              /* flex 컨테이너로 */
+  justify-content: center;    /* 가로 중앙 */
+  margin-bottom: 16px;        /* 아래 여백 */
+}
+.introduction .intro-window-content .user-frame img{
+  display: block;
+}
+
+.introduction .intro-window-content .user-info {
+  text-align: left;
+}
+
+.introduction .gallery-window {
+  background: #EAF3FF;
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  border: 1px solid #dedddd;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  width: calc( (110px + 17px) * 3 - 10px ); /* visibleCount * (itemWidth+gap) - gap */
+  /* 예: 3장 보여줄 경우 (110+10)*3 - 10 = 350px */
+  height: 138px;  /* 필요에 따라 조절 */
+  padding: 12px 16px;    /* 위/아래 12px, 좌/우 16px */
+  box-sizing: border-box;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 6;
+  opacity: 0.8;          /* 80% 투명도는 0.8 로 써야 인식됩니다 */
+  margin-bottom: 10px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .gallery-track-container {
+    overflow: hidden;
+    flex: 1;
+    height: 100%;
   }
+  .gallery-track {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  /* 한 장 단위 컨테이너 */
+  .gallery-item {
+    flex: 0 0 110px;  /* itemWidth */
+    margin-right: 10px; /* gap */
+  }
+  
+  /* 이미지 비율 유지하며 크기 맞춤 */
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;  
+  background: rgba(255,255,255,0.6);
+  border: none;
+  font-size: 2rem;
+  padding: 6px 13px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+
+.gallery-nav:hover {
+  background: rgba(255,255,255,0.9);
+}
+
+.gallery-nav.prev {
+  left: 8px;
+}
+
+.gallery-nav.next {
+  right: 8px;
+}
+  /* 제목(p#BagelFatOne) 아래에 여백을 주면 더 보기 좋습니다 */
+.introduction .gallery-window > #BagelFatOne {
+  text-align: center;
+  margin: 0 0 10px;
+}
+
+
+.introduction .gallery-window ul {
+  margin: 0;
+  padding-left: 20px;     /* 리스트 안쪽 여백 */
+  list-style: disc inside;
+  margin: 0 0 18px;
+}
+  
+  /* 3-2) 가운데 MainWindow (545×500) */
+  .main-window {
+    flex: 0 0 580px;
+    position: relative;
+    padding: 0;
+    
+    height: 400px;
+  }
+  
+  /* 3-3) 오른쪽 Sidebar (111×500) */
+  .sidebar {
+    flex: 0 0 80px;
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(8px);
+    margin-top: 40px;
+    border: 1px solid #dedddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 111px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    position: relative;
+    z-index: 6;
+  }
+  .sidebar a { margin: 10px 0; }
+  .sidebar img { width: 48px; height: 48px; margin:20px;}
+  
+  /* ──────────────────────────────────────────────────────────
+   4) 탭창: 배경은 투명, 버튼과 컨텐츠영역에만 배경/테두리
+──────────────────────────────────────────────────────────*/
+
+/* 탭 전체를 감싸는 영역 — 배경·테두리 모두 제거 */
+.tabs-window {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+/* 탭 버튼에만 Glass 스타일 적용 */
+.tab-btn {
+  flex: 0 0 150px; 
+  text-align: center;
+  padding: 12px 0;
+  cursor: pointer;
+
+  background: linear-gradient(
+    to bottom,
+    #DFF3FF 0%,
+    #C5EAFF 100% 
+  );
+  backdrop-filter: blur(8px);
+  border: 1px solid #dedddd;
+  border-bottom: none;
+  
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab-btn:hover {
+  background: rgba(255,255,255,0.6);
+}
+
+.tab-btn.active {
+  background: linear-gradient(
+    to bottom,
+    #E2FFFB 0%,
+    #A6FFF2 100% 
+  );
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 탭 컨텐츠 영역 */
+
+.tab-content {
+  display: flex;
+
+}
+
+.tab-content-window {
+  flex: 1;
+  background: E5F4FF;
+  backdrop-filter: blur(8px);
+  border: 1px solid #dedddd;
+  
+  padding:20px 50px 20px 50px;
+  overflow-y: auto;
+  height: 440px;
+  opacity: 100;
+}
+/* gif-image 래퍼 */
+.tab-content {
+  display: flex;            /* flex 컨테이너로 만들고 */
+  justify-content: center;  /* 주축(가로) 중앙 정렬 */
+  align-items: center;      /* 교차축(세로) 중앙 정렬 (높이를 지정했을 때만) */
+}
+
+/* .tab-content 안에 있는 gif-image 래퍼가 flex 아이템이 되도록 */
+
+  /* 5) 하단 언어 스위치 (1000×62) */
+  .language-switch {
+    width: 1095px;
+    height: 70px;
+    display: flex;
+    justify-content: left;
+    gap: 0px;
+    background: linear-gradient(to bottom, #F4FCFF, #D9F3FB);
+    backdrop-filter: blur(8px);
+    border: 1px solid #dedddd;
+    margin-top: auto;
+    position: relative;
+    z-index: 3;
+    border-bottom-right-radius: 31px;  
+    border-bottom-left-radius: 31px;     
+    overflow: hidden; 
+  }
+.language-switch button {
+  border: none;
+  border-radius: 17px;
+  margin:15px 0 15px 30px;
+  font-weight: 10;
+  font-size: 18px;
+  font-family:"Frutiger";
+  width: 200px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(90deg, #a5e1a3, #77c9c9);
+  }
+
+.language-switch button:hover,
+.language-switch button:active { 
+  background: linear-gradient(90deg, #96fbfb, #41e4e4);
+  opacity: 0.8; 
+}
+  
+  /* 콘텐츠 기본 */
+  .introduction h2 { margin-bottom: 8px; }
+  .gallery-window ul { padding-left: 20px; list-style: disc; }
+  .gallery-window li { margin-bottom: 4px; color: #333; }
+
+  @font-face {
+    font-family: "MonoplexKR";
+    src: url("fonts/MonoplexKR-Light.ttf");
+  }
+
+  @font-face {
+    font-family: "MonoplexKRBold";
+    src: url("fonts/MonoplexKR-SemiBold.ttf");
+  }
+
+  @font-face {
+    font-family: "Frutiger";
+    src: url("fonts/Frutiger.ttf");
+  }
+
+  @font-face {
+    font-family: "PixelifySans";
+    src: url("fonts/PixelifySans-VariableFont_wght.ttf");
+  }
+
+  @font-face {
+    font-family: "Galmuri11";
+    src: url("./fonts/Galmuri11.ttf");
+  }
+
+  @font-face {
+    font-family: "BagelFatOne";
+    src: url("./fonts/BagelFatOne-Regular.ttf");
+  }
+  @font-face {
+    font-family: "DungGeunMo";
+    src: url("./fonts/DungGeunMo.ttf");
+  }
+
+#Monoplexfont{
+  font-family: "MonoplexKR";
+  font-size:12px;
+  letter-spacing: -2px;
+}
+
+#MonoplexfontBold{
+  font-family: "MonoplexKRBold";
+  font-size:20px;
+  letter-spacing: -2px;
+  word-spacing: -2px;
+  font-weight: 100;
+}
+
+#Headline{
+  font-family: "Galmuri11";
+  font-size: 25px; 
+}
+
+#user-info{
+  font-family: "MonoplexKR";
+  font-size: 15px;
+  margin-top: 20px;
+  line-height: 160%;
+}
+
+#Galmuri11{
+  font-family: "Galmuri11";
+  font-size: 12px;
+  line-height: 160%;
+  margin-left: 15px;
+}
+
+#BagelFatOne{
+  font-family: "BagelFatOne";
+  font-size: 30px;
+  color:#006BF6;
+  opacity: 80;
+  
+}
+
+#DungGeunMo{
+  font-family: "DungGeunMo";
+  font-size:20px;
+}
+
+.images {
+  display: flex;
+  gap: 15px; /* 이미지 사이에 10px 공백 */
+}
+
+.portfolio-list {
+  list-style: none;    /* 불릿 없애기 */
+  margin: 10px 0 0 20px;           /* 브라우저 기본 여백 제거 */
+  padding: 0;          /* 브라우저 기본 패딩 제거 */
 }
